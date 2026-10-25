@@ -27,7 +27,7 @@ cd robot-vla
 | action_codec.json | 客户端与服务端共享的六舵机动作协议 |
 | dataset.json | 输入压缩包、校验和、数据转换及划分 |
 | curation.json | 数据清洗与截断参数 |
-| training.json | SmolVLA训练参数 |
+| training.json | SmolVLA训练参数及pi05训练默认值 |
 
 配置中的相对路径以项目根目录为基准。GPU编号按容器可见设备编号解释，`--gpu`覆盖server.json中的默认值，在导入CUDA/JAX之前生效。
 
@@ -58,3 +58,13 @@ cd robot-vla
 `src`核心代码，`config`配置，`scripts`操作入口，`tests`测试，`data/source`上传包，`data/datasets`训练数据集，`data/temp`中间数据，`models`模型，`logs`服务/训练/评估记录，`run`PID及worker socket。所有这些数据目录与`.venv`均被Git忽略。
 
 升级：先停止服务，`git pull --ff-only`，运行`./install.sh`，检查后重新启动。Git会报告本地配置冲突，不会静默替换用户设置。仓库远端URL由仓库所有者设置，本地`git init`不会发布到GitHub。
+
+当前工作区本身已是Git仓库，也可直接通过现有SSH入口克隆：
+
+```bash
+git clone ssh://root@10.130.151.21:8167/root/robot-vla
+cd robot-vla
+./install.sh
+```
+
+模型、数据和虚拟环境不会随Git克隆。训练数据转换仅接受schema v7；doctor中的压缩包校验通过只说明文件与配置的SHA256匹配，不代表旧格式压缩包可以进入当前训练链路。

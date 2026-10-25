@@ -116,7 +116,7 @@ def main() -> int:
             and checks["openpi"].get("ready") is True
             and checks["openpi"].get("backend") == "gpu"
         )
-        checks["training_archive_ready"] = checks["source_archive"] and checks["source_archive_sha256"]
+        checks["training_archive_checksum_ok"] = checks["source_archive"] and checks["source_archive_sha256"]
         checks["ok"] = checks["installation_ok"] and any(value["can_infer"] for value in checks["models"].values())
     except Exception as error:
         checks["ok"] = False
