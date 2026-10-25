@@ -10,12 +10,13 @@ from openpi.training import optimizer as _optimizer
 from openpi.training import weight_loaders
 
 from action import ActionCodecConfig, DynamicBoundedRelativeCodec
-from common.paths import DATA, MODELS
+from common.paths import CONFIGS, DATA, MODELS
+from common.config import load_json
 from pi05.transforms import RosorinInputs, RosorinOutputs
 
 
 CONFIG_NAME = "pi05_rosorin_red_block"
-DATASET_NAME = "red_block_expert20_terminal_v2"
+DATASET_NAME = str(load_json(CONFIGS / "dataset.json")["name"])
 
 
 @dataclasses.dataclass(frozen=True)
@@ -75,7 +76,7 @@ def make_train_config(
     model = pi0_config.Pi0Config(
         pi05=True,
         action_dim=32,
-        action_horizon=72,
+        action_horizon=int(load_json(CONFIGS / "server.json")["actions_per_chunk"]),
         paligemma_variant="gemma_2b_lora",
         action_expert_variant="gemma_300m_lora",
     )

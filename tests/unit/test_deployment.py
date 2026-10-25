@@ -10,7 +10,7 @@ class DeploymentTests(unittest.TestCase):
     def test_relative_checkpoint_and_runtime_gpu(self):
         registry=ModelRegistry(CONFIGS/'models.json',gpu='2')
         spec=registry.get('smolvla')
-        self.assertEqual(spec.checkpoint,ROOT/'models/active/smolvla')
+        self.assertEqual(spec.checkpoint,(ROOT/'models/active/smolvla').resolve())
         self.assertEqual(spec.cuda_visible_devices,'2')
 
     def test_gpu_does_not_accept_shell_arguments(self):

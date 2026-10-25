@@ -6,7 +6,8 @@ import json
 from pathlib import Path
 import sys
 
-from common.paths import DATA, OPENPI_ROOT
+from common.paths import CONFIGS, DATA, OPENPI_ROOT
+from common.config import load_json
 from pi05.config import CONFIG_NAME, DATASET_NAME, make_train_config
 from pi05.data_loader import install as install_data_loader
 
@@ -68,13 +69,14 @@ def evaluate(args) -> int:
 
 
 def parser() -> argparse.ArgumentParser:
+    defaults = load_json(CONFIGS / "training.json")["pi05"]
     result = argparse.ArgumentParser(description="Train PI 0.5 for the ROSOrin arm")
     subparsers = result.add_subparsers(dest="command", required=True)
     for command in ("stats", "train"):
         item = subparsers.add_parser(command)
-        item.add_argument("--steps", type=int, default=3000)
-        item.add_argument("--batch-size", type=int, default=4)
-        item.add_argument("--experiment", default="red-block-v1")
+        item.add_argument("--steps", type=int, default=int(defaults["steps"]))
+        item.add_argument("--batch-size", type=int, default=int(defaults["batch_size"]))
+        item.add_argument("--experiment", default=defaults["experiment"])
         item.add_argument("--overwrite", action="store_true")
     item = subparsers.add_parser("evaluate")
     item.add_argument("--checkpoint", type=Path, required=True)
