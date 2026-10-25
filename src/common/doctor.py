@@ -16,6 +16,7 @@ from common.paths import (
     OPENPI_PYTHON,
     OPENPI_ROOT,
 )
+from router.registry import ModelRegistry
 
 
 def _sha256(path: Path) -> str:
@@ -74,6 +75,11 @@ def main() -> int:
         )
         checks["lerobot_revision"] = _revision(LEROBOT_ROOT)
         checks["openpi_revision"] = _revision(OPENPI_ROOT)
+        frameworks = load_json(CONFIGS / "frameworks.json")
+        checks["framework_revisions_match"] = (
+            checks["lerobot_revision"] == frameworks["lerobot"]["revision"]
+            and checks["openpi_revision"] == frameworks["openpi"]["revision"]
+        )
 
         dataset = load_json(CONFIGS / "dataset.json")
         archive = resolve_path(dataset["source_archive"])
@@ -92,27 +98,26 @@ def main() -> int:
             (pi05 / "params" / "_METADATA").is_file()
             and any((pi05 / "params").glob("**/*"))
         )
-        checks["pi05_robot_ready"] = False
-        checks["pi05_robot_status"] = (
-            "base checkpoint installed; robot-specific fine-tuning and action "
-            "normalization are required before inference or motion"
-        )
+        registry = ModelRegistry(CONFIGS / "models.json")
+        checks["models"] = {
+            name: {"checkpoint": str(spec.checkpoint), "can_infer": spec.can_infer,
+                   "can_execute": spec.can_execute and spec.can_infer}
+            for name, spec in registry.models.items()
+        }
         required = (
             "robot_vla_import_grpc",
             "robot_vla_import_numpy",
-            "source_archive",
-            "source_archive_sha256",
-            "smolvla_base",
-            "smolvlm2",
-            "pi05_base",
+            "framework_revisions_match",
         )
-        checks["ok"] = (
+        checks["installation_ok"] = (
             all(checks.get(key) is True for key in required)
             and checks["lerobot"].get("ready") is True
             and checks["lerobot"].get("cuda_available") is True
             and checks["openpi"].get("ready") is True
             and checks["openpi"].get("backend") == "gpu"
         )
+        checks["training_archive_ready"] = checks["source_archive"] and checks["source_archive_sha256"]
+        checks["ok"] = checks["installation_ok"] and any(value["can_infer"] for value in checks["models"].values())
     except Exception as error:
         checks["ok"] = False
         checks["error"] = str(error)
