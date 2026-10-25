@@ -1,0 +1,14 @@
+{
+  "lerobot": {
+    "path": "../lerobot",
+    "revision": "0b067df57d21d3a02d6c511f1609172fa39ac29b",
+    "url": "https://github.com/huggingface/lerobot.git",
+    "python": "3.10"
+  },
+  "openpi": {
+    "path": "../openpi",
+    "revision": "215abfb217dbac7d5f1273282331b9b1866c0479",
+    "url": "https://github.com/Physical-Intelligence/openpi.git",
+    "python": "3.11"
+  }
+}

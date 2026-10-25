@@ -1,0 +1,13 @@
+{
+  "steps": 10000,
+  "batch_size": 4,
+  "num_workers": 0,
+  "save_freq": 1000,
+  "log_freq": 10,
+  "warmup_steps": 50,
+  "chunk_size": 72,
+  "n_action_steps": 72,
+  "rename_map": {
+    "observation.images.arm_camera": "observation.images.camera1"
+  }
+}

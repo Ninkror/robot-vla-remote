@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "default_model": "smolvla",
+  "gpu_policy": "single_active",
+  "models": {
+    "smolvla": {
+      "display_name": "SmolVLA",
+      "framework": "lerobot",
+      "checkpoint": "models/active/smolvla",
+      "status": "validated",
+      "robot_compatible": true,
+      "device": "cuda"
+    },
+    "pi05": {
+      "display_name": "PI 0.5",
+      "framework": "openpi",
+      "checkpoint": "models/active/pi05",
+      "status": "validated",
+      "robot_compatible": true,
+      "device": "cuda",
+      "reason": "operator-authorized initial physical trial"
+    }
+  }
+}

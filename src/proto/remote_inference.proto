@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package robot_vla.v1;
+
+service RemoteInference {
+  rpc Health(HealthRequest) returns (HealthResponse);
+  rpc ListModels(ListModelsRequest) returns (ListModelsResponse);
+  rpc GetModelStatus(GetModelStatusRequest) returns (ModelInfo);
+  rpc Predict(PredictRequest) returns (PredictResponse);
+  rpc ReleaseSession(ReleaseSessionRequest) returns (ReleaseSessionResponse);
+}
+
+message HealthRequest {}
+
+message HealthResponse {
+  bool ready = 1;
+  string active_model_id = 2;
+  string device = 3;
+  string service_version = 4;
+  string codec_sha256 = 5;
+}
+
+message ListModelsRequest {}
+
+message ModelInfo {
+  string model_id = 1;
+  string display_name = 2;
+  string framework = 3;
+  string status = 4;
+  bool can_infer = 5;
+  bool can_execute = 6;
+  string message = 7;
+  bool active = 8;
+}
+
+message ListModelsResponse {
+  repeated ModelInfo models = 1;
+  string default_model_id = 2;
+  string active_model_id = 3;
+}
+
+message GetModelStatusRequest { string model_id = 1; }
+
+message RgbImage {
+  uint32 height = 1;
+  uint32 width = 2;
+  string encoding = 3;
+  uint32 row_stride = 4;
+  bytes data = 5;
+}
+
+message PredictRequest {
+  string client_id = 1;
+  string session_id = 2;
+  uint64 sequence_id = 3;
+  int64 capture_time_unix_ns = 4;
+  string task = 5;
+  repeated float state = 6;
+  RgbImage image = 7;
+  bool request_execution = 8;
+  string camera_mapping = 9;
+  string model_id = 10;
+}
+
+message PredictResponse {
+  uint64 sequence_id = 1;
+  uint32 action_rows = 2;
+  uint32 action_cols = 3;
+  repeated float actions = 4;
+  double inference_seconds = 5;
+  int64 server_receive_time_unix_ns = 6;
+  int64 server_response_time_unix_ns = 7;
+  string model_path = 8;
+  string camera_mapping = 9;
+  bool motion_allowed = 10;
+  string status_code = 11;
+  string status_message = 12;
+  string codec_sha256 = 13;
+  string model_id = 14;
+  string model_status = 15;
+  string session_id = 16;
+}
+
+message ReleaseSessionRequest { string session_id = 1; }
+message ReleaseSessionResponse { bool released = 1; }

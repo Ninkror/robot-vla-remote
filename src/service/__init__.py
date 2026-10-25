@@ -1,0 +1,1 @@
+"""Remote SmolVLA inference service."""

@@ -1,0 +1,16 @@
+{
+  "name": "red_block_expert20_terminal_v2",
+  "source_archive": "data/source/export-red-block-expert20-rgb-v6-20261015.tar.zst",
+  "source_sha256": "c7e50c7eeaf6440c287975b2128284491095efb78f49617e5e684ee785609798",
+  "control_period_ms": 150,
+  "input_profile": "rgb_state_v1",
+  "terminal_hold_rows": 10,
+  "exclude_episodes": [],
+  "validation_episode_ids": [
+    "episode_20261008T072144770899Z_65d5",
+    "episode_20261008T072348967478Z_8614"
+  ],
+  "source_repeats": {
+    "expert": 1
+  }
+}

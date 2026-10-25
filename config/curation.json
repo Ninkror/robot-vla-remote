@@ -1,0 +1,16 @@
+{
+  "name": "red_block_mixed_trim_v1",
+  "archive_id": "red-block-mixed-trim-v1-20261008",
+  "manual_archive": "data/source/export-red-block-rgb-v5.tar.zst",
+  "manual_sha256": "fa2a0331754da24020dee0255898f41f24094ede02e5c206b7356d0b0747f1d0",
+  "expert_archive": "data/source/export-red-block-expert20-20261008.tar.zst",
+  "expert_sha256": "e4f1643feb72a9fb835e43fe2cdd522b8b713344dbd42a3de113121685576155",
+  "output_archive": "data/source/export-red-block-mixed-trim-v1-20261008.tar.zst",
+  "settle_ms": 500,
+  "gripper_delta": 5.0,
+  "exclude_manual_episodes": [
+    "episode_20260928T073515668094Z_f422",
+    "episode_20260928T073618715184Z_54bb",
+    "episode_20260928T080255836536Z_76cd"
+  ]
+}
