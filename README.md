@@ -40,7 +40,7 @@ GPU编号按当前容器可见编号解释。`--gpu`覆盖 `config/server.json`�
 需要 Linux、Python 3.10～3.12、Git、可用的venv/pip、网络及匹配PyTorch/JAX CUDA依赖的NVIDIA驱动。容器必须能看到GPU。当前实验室部署已在容器中完成，不要求用户重新创建Docker。
 
 ```bash
-git clone ssh://root@10.130.151.21:8167/root/robot-vla
+git clone https://github.com/Ninkror/robot-vla-remote.git robot-vla
 cd robot-vla
 ./install.sh
 ./install.sh --check
